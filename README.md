@@ -17,5 +17,5 @@ The challenge requires implementing and testing an input which makes a call to a
   - Refactors
   - Documentation
 
-> [!IMPORTANT]
+> [!TIP]
 > Commit changes regularly and track progress against the timeline. Worthile building in PRs to help with breaking things up and looking back in future
