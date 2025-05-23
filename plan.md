@@ -1,4 +1,6 @@
-This is to help me plan the Technical Assessment for SH:24. I'll be completing it in between other responsibilities, so I'll be chunking up my time to do in probably across a few hours of sporadic working. To enable a train of though piece of work, this documentation focuses on capturing thoughts and decisions.
+# Plan
+
+This is to help me plan the Technical Assessment for SH:24. I'll be completing it in between other responsibilities, so I'll be chunking up my time to do this across a few hours of sporadic working. To enable a train of thought piece of work, this documentation focuses on capturing thoughts and decisions.
 
 ## Task
 
@@ -17,14 +19,11 @@ The endpoints here return
 
 ```json
 {
-
-    "status":200,
-    "result": {
-        "postcode":"SE1 7QD",
-         ...
-         "lsoa":"Southwark 034A"
-         ...
-    }
+  "status": 200,
+  "result": {
+    "postcode": "SE1 7QD",
+    "lsoa": "Southwark 034A"
+  }
 }
 ```
 
