@@ -28,7 +28,7 @@ app.get("/postcode/:postcode", async (req, res) => {
     if (!response.ok) {
       res.status(404).json({ error: "Postcode not found" });
     }
-    const data = await response.json();
+    const data = response.json();
     res.status(200).json(data);
   } catch (error) {
     console.error("Error fetching postcode data:", error);
@@ -36,11 +36,6 @@ app.get("/postcode/:postcode", async (req, res) => {
   }
 });
 
-app
-  .listen(PORT, () => {
-    console.log(`Server running in ${NODE_ENV} mode on port ${PORT}`);
-  })
-  .on("error", (err) => {
-    console.error("Error starting server:", err);
-    process.exit(1);
-  });
+app.listen(PORT, () => {
+  console.log(`Server running in ${NODE_ENV} mode on port ${PORT}`);
+});

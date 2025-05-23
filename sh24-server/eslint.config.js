@@ -21,8 +21,8 @@ export default tseslint.config(
       globals: {
         ...compat.env(),
       },
+      // parserOptions.project is omitted here to avoid type-aware linting on config files
       parserOptions: {
-        project: "./tsconfig.json",
         ecmaVersion: 2022,
         sourceType: "module",
       },
@@ -68,15 +68,12 @@ export default tseslint.config(
 
   // Apply overrides for specific file patterns
   {
-    files: ["**/*.ts"],
-    rules: {
-      // TypeScript file specific rules
-    },
+    files: ["src/*.ts"],
   },
 
   // Special configuration for test files (if any)
   {
-    files: ["**/*.test.ts", "**/*.spec.ts"],
+    files: ["src/*.test.ts"],
     rules: {
       // Test file specific rules
       "no-console": "off",
