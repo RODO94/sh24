@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "start": "tsx src/index.ts"
+    "start": "tsx watch src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +26,8 @@
     "supertest": "^7.1.1",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "typescript-eslint": "^8.32.1",
+    "globals": "^16.0.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
