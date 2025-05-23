@@ -6,5 +6,12 @@ export default function ErrorBox({
 }: {
   errorMessage: RequestError | null;
 }) {
-  return <p>{errorMessage?.error.message}</p>;
+  return (
+    errorMessage && (
+      <section className='error'>
+        <h2 className='error__heading'>Error</h2>
+        <p className='error_message'>{errorMessage?.error.message}</p>
+      </section>
+    )
+  );
 }
