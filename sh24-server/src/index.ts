@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import { z } from "zod/v4";
 
-// Load environment variables
 config();
 
 const PORT = process.env.PORT || 8080;
@@ -35,14 +34,6 @@ app.get("/postcode/:postcode", async (req, res) => {
     console.error("Error fetching postcode data:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
-
-app.get("/health", (_req, res) => {
-  res.status(200).json({
-    status: "healthy",
-    timestamp: new Date().toISOString(),
-    environment: NODE_ENV,
-  });
 });
 
 app

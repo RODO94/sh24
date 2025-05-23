@@ -19,17 +19,13 @@ export default tseslint.config(
       ecmaVersion: 2022,
       sourceType: "module",
       globals: {
-        ...compat.config.globals.node,
+        ...compat.env(),
       },
       parserOptions: {
         project: "./tsconfig.json",
         ecmaVersion: 2022,
         sourceType: "module",
       },
-    },
-    env: {
-      node: true,
-      es2022: true,
     },
     rules: {
       // Node.js specific rules
@@ -54,7 +50,7 @@ export default tseslint.config(
         "error",
         {
           selector: "variable",
-          format: ["camelCase"],
+          format: ["camelCase", "UPPER_CASE"],
         },
         {
           selector: "function",
