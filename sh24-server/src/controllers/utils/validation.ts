@@ -1,4 +1,7 @@
-import { LSOA_ALLOW_LIST } from "../../logic/allowLists.js";
+import {
+  LSOA_ALLOW_LIST,
+  POSTCODE_ALLOW_LIST,
+} from "../../logic/allowLists.js";
 import { RequestResponse } from "../../types/requests.js";
 import { transfromAndSantitisePostcode } from "./transformations.js";
 import { z } from "zod/v4";
@@ -7,7 +10,7 @@ export const checkIfPostcodeIsInLsoa = (lsoa: string) =>
   LSOA_ALLOW_LIST.find((allowedLsoa) => allowedLsoa === lsoa);
 
 export const checkIfPostcodeIsAllowed = (postcode: string) =>
-  LSOA_ALLOW_LIST.find((allowedPostcode) => allowedPostcode === postcode);
+  POSTCODE_ALLOW_LIST.find((allowedPostcode) => allowedPostcode === postcode);
 
 export function checkIfAllowedServiceArea(lsoa: string, postcode: string) {
   const [serviceArea] = lsoa.split(" ");
