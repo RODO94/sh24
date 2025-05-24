@@ -1,5 +1,5 @@
-import type { ErrorMessages } from "./Error";
-import type { SuccessMessage } from "./Success";
+import type { ErrorMessages } from "./request.error";
+import type { SuccessMessage } from "./request.success";
 
 export interface RequestResponseBase {
   isSuccess: boolean;
@@ -11,7 +11,7 @@ export interface RequestError extends RequestResponseBase {
 }
 
 export interface RequestSuccess extends RequestResponseBase {
-  isSuccess: false;
+  isSuccess: true;
   success: SuccessMessage;
 }
 

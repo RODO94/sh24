@@ -4,6 +4,7 @@ export const invalidServiceAreaPostcode = "e26pp";
 export const invalidServiceArea = "Cambuslang 000";
 
 export const invalidAPIResponse = {
+  status: 404,
   error: "Postcode not found",
 };
 
