@@ -28,13 +28,17 @@ export const checkPostcode: RequestHandler = async (req, res) => {
   }
 
   try {
-    const response = await fetch(`${postcodeIoUrl}/${validatedPostcode}`);
+    const response = await fetch(
+      `${postcodeIoUrl}/${validatedPostcode as string}`
+    );
 
     const {
       result: { lsoa },
-    } = await response.json();
+    } = (await response.json()) as { result: { lsoa: string } };
 
-    !response.ok && res.status(404).json({ error: "Postcode not found" });
+    if (!response.ok) {
+      res.status(404).json({ error: "Postcode not found" });
+    }
 
     const isAllowedServiceArea = checkIfAllowedServiceArea(lsoa, postcode);
 
@@ -59,7 +63,7 @@ export const checkPostcode: RequestHandler = async (req, res) => {
 };
 
 function checkIfAllowedServiceArea(lsoa: string, postcode: string) {
-  const [serviceArea, _code] = lsoa.split(" ");
+  const [serviceArea] = lsoa.split(" ");
   const isAllowedServiceArea = checkIfPostcodeIsInLsoa(serviceArea);
 
   if (!isAllowedServiceArea) {
