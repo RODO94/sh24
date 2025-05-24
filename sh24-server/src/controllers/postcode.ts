@@ -18,6 +18,7 @@ export const checkPostcode: RequestHandler = async (req, res) => {
   }
 
   const isAllowedPostcode = checkIfPostcodeIsAllowed(postcode);
+  console.log(isAllowedPostcode);
 
   if (isAllowedPostcode) {
     const successResponse: RequestResponse = {
@@ -39,7 +40,14 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     };
 
     if (data.status === 404) {
-      res.status(404).json({ error: "Postcode not found" });
+      const errorResponse: RequestResponse = {
+        isSuccess: false,
+        error: {
+          type: "input",
+          message: `'${postcode}' cannot be found. Enter another postcode`,
+        },
+      };
+      res.status(404).json(errorResponse);
       return;
     }
 

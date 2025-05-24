@@ -36,7 +36,6 @@ function App() {
     }
   };
 
-  console.log(errorMesage);
   return (
     <main>
       <PostcodeInput handleSubmit={handleSubmit} />

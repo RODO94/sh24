@@ -64,7 +64,10 @@ describe("Postcode Integration Tests", () => {
         .get(`/postcode/${invalidPostcode}`)
         .expect(404);
 
-      assert.strictEqual(response.body.error, "Postcode not found");
+      assert.strictEqual(
+        response.body.error.message,
+        `'${invalidPostcode}' cannot be found. Enter another postcode`
+      );
     });
 
     it("should return error for postcodes in disallowed service areas", async () => {
