@@ -19,3 +19,9 @@ Unit tests were simple, mostly does it render and does it do something
 For hooking up with the backend, I've tried to keep it simple with the error journey and success journey both delivering a `data` field to the `handleSubmit` which feeds either state variable for `errorMessage` and `successMessage` which then controls which message gets displayed.
 
 ## Backend
+
+## E2E
+
+Decided to add in base test cases for e2e to make sure the journeys are all covered and isolated.
+
+Built this so it could run from the root and call upon tests in an e2e folder. This was just my first instinct since it could run each part of the stack then the tests.
