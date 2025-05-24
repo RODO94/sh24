@@ -15,5 +15,6 @@ app.use(cors());
 app.use("/postcode", postcodeRoutes);
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server running in ${NODE_ENV} mode on port ${PORT}`);
 });

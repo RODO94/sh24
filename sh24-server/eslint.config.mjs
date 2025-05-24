@@ -23,7 +23,7 @@ export default tseslint.config(
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: "module",
-        project: './tsconfig.json',
+        project: "./tsconfig.json",
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -72,11 +72,16 @@ export default tseslint.config(
 
   // Special configuration for test files (if any)
   {
-    files: ["src/*.test.ts"],
+    files: ["src/**/*.test.ts"],
     rules: {
       // Test file specific rules
       "no-console": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   }
 );
