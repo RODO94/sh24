@@ -9,10 +9,11 @@ import {
 import { southwarkPostcode } from "../__tests__/mocks/southwark.js";
 import { firstSHPostcode } from "../__tests__/mocks/sh24.js";
 import { lambethPostcode } from "../__tests__/mocks/lambeth.js";
-
-const invalidZodPostcode = "INV12 5BGO";
-const invalidPostcode = "xx122nn";
-const invalidServiceArea = "Cambuslang 000";
+import {
+  invalidPostcode,
+  invalidServiceArea,
+  invalidZodPostcode,
+} from "../__tests__/mocks/invalidData.js";
 
 describe("zod postcode validation", () => {
   it("creates a zod error for invalid postcodes", () => {
