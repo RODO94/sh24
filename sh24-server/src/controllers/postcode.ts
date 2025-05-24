@@ -11,14 +11,14 @@ import {
 export const checkPostcode: RequestHandler = async (req, res) => {
   const { postcode } = req.params;
 
-  const transformedPostcode = checkAndValidatePostcode(postcode);
+  const validatedPostcode = checkAndValidatePostcode(postcode);
 
-  if (typeof transformedPostcode !== "string" && transformedPostcode.error) {
-    res.status(400).json(transformedPostcode);
+  if (typeof validatedPostcode !== "string" && validatedPostcode.error) {
+    res.status(400).json(validatedPostcode);
   }
 
   try {
-    const response = await fetch(`${postcodeIoUrl}/${transformedPostcode}`);
+    const response = await fetch(`${postcodeIoUrl}/${validatedPostcode}`);
     const {
       result: { lsoa },
     } = await response.json();
@@ -31,17 +31,19 @@ export const checkPostcode: RequestHandler = async (req, res) => {
       res.status(400).json(isAllowedServiceArea);
     }
 
-    // TODO: Check if the postcode is in the service area
-
     const successResponse: RequestResponse = {
       isSuccess: true,
-      success: { message: `Postcode is in the service area ${lsoa}` },
+      data: { message: `Postcode is in the service area ${lsoa}` },
     };
 
     res.status(200).json(successResponse);
   } catch (error) {
     console.error("Error fetching postcode data:", error);
-    res.status(500).json({ error: "Internal server error" });
+    const errorResponse: RequestResponse = {
+      isSuccess: false,
+      error: { type: "server", message: "Failed to fetch postcode data" },
+    };
+    res.status(500).json(errorResponse);
   }
 };
 
@@ -49,9 +51,14 @@ function checkIfAllowedServiceArea(lsoa: string, postcode: string) {
   const isAllowedServiceArea = checkIfPostcodeIsInLsoa(lsoa);
 
   if (!isAllowedServiceArea) {
-    return {
-      error: `'${postcode}' is not in an allowed service area. Enter another postcode`,
+    const errorResponse: RequestResponse = {
+      isSuccess: false,
+      error: {
+        type: "input",
+        message: `'${postcode}' is not in an allowed service area. Enter another postcode`,
+      },
     };
+    return errorResponse;
   }
 
   return true;
@@ -67,17 +74,27 @@ function checkAndValidatePostcode(postcode: string) {
     .safeParse(transformedPostcode);
 
   if (!validatedPostcode.success) {
-    return {
-      error: `'${postcode}' is in an invalid format. Enter a postcode similar to AA12 3BC`,
+    const errorResponse: RequestResponse = {
+      isSuccess: false,
+      error: {
+        type: "zod",
+        message: `'${postcode}' is in an invalid format. Enter a postcode similar to AA12 3BC`,
+      },
     };
+    return errorResponse;
   }
 
   const isAllowedPostcode = checkIfPostcodeIsAllowed(postcode);
 
   if (!isAllowedPostcode) {
-    return {
-      error: `'${postcode}' is not an allowed postcode. Enter another postcode`,
+    const errorResponse: RequestResponse = {
+      isSuccess: false,
+      error: {
+        type: "input",
+        message: `'${postcode}' is not an allowed postcode. Enter another postcode`,
+      },
     };
+    return errorResponse;
   }
 
   return transformedPostcode;
