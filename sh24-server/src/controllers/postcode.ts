@@ -1,7 +1,7 @@
 import { postcodeIoUrl } from "../index.js";
 import { z } from "zod/v4";
 import { RequestResponse } from "../types/requests.js";
-import { transfromAndSantitisePostcode } from "../controllers/transformations.js";
+import { transfromAndSantitisePostcode } from "./transformations.js";
 import { RequestHandler } from "express";
 import {
   checkIfPostcodeIsAllowed,

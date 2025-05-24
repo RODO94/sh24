@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { checkPostcode } from "../controllers/checkPostcodes.js";
+import { checkPostcode } from "../controllers/postcode.js";
 
 const router = express.Router();
 

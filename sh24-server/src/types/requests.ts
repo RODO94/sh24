@@ -1,5 +1,5 @@
-import type { ErrorMessages } from "./error.js";
-import type { SuccessMessage } from "./success.js";
+import type { ErrorMessages } from "./request.error.js";
+import type { SuccessMessage } from "./request.success.js";
 
 export interface RequestResponseBase {
   isSuccess: boolean;
