@@ -12,7 +12,7 @@ export interface RequestError extends RequestResponseBase {
 
 export interface RequestSuccess extends RequestResponseBase {
   isSuccess: true;
-  success: SuccessMessage;
+  data: SuccessMessage;
 }
 
 export type RequestResponse = RequestError | RequestSuccess;
