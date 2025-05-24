@@ -1,6 +1,6 @@
 # Plan
 
-This is to help me plan the Technical Assessment for SH:24. I'll be completing it in between other responsibilities, so I'll be chunking up my time to do this across a few hours of sporadic working. To enable a train of thought piece of work, this documentation focuses on capturing thoughts and decisions.
+This is to help me plan the Technical Assessment for SH:24. I'll be completing it in between other responsibilities, so I'll be chunking up my time to do this across a few hours / days of sporadic working. To enable a train of thought piece of work, this documentation focuses on capturing decisions and initial thinking.
 
 ## Task
 
