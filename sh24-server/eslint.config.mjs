@@ -18,13 +18,13 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
-      globals: {
-        ...compat.env(),
-      },
-      // parserOptions.project is omitted here to avoid type-aware linting on config files
+      globals: { ...compat.env() },
+      parser: tseslint.parser,
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: "module",
+        project: './tsconfig.json',
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
@@ -33,7 +33,6 @@ export default tseslint.config(
       "no-process-exit": "error",
 
       // TypeScript specific rules
-      "@typescript-eslint/explicit-function-return-type": "warn",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
