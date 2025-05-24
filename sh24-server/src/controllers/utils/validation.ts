@@ -13,7 +13,7 @@ export const checkIfPostcodeIsAllowed = (postcode: string) =>
   POSTCODE_ALLOW_LIST.find((allowedPostcode) => allowedPostcode === postcode);
 
 export function checkIfAllowedServiceArea(lsoa: string, postcode: string) {
-  const [serviceArea] = lsoa.split(" ");
+  const serviceArea = lsoa.split(" ").slice(0, -1).join(" ");
   const isAllowedServiceArea = checkIfPostcodeIsInLsoa(serviceArea);
 
   if (!isAllowedServiceArea) {

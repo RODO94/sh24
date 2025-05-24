@@ -12,8 +12,10 @@ export const checkPostcode: RequestHandler = async (req, res) => {
 
   const validatedPostcode = checkAndValidatePostcode(postcode);
 
-  if (typeof validatedPostcode !== "string" && validatedPostcode.error)
+  if (typeof validatedPostcode !== "string" && validatedPostcode.error) {
     res.status(400).json(validatedPostcode);
+    return;
+  }
 
   const isAllowedPostcode = checkIfPostcodeIsAllowed(postcode);
 
@@ -24,34 +26,45 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     };
 
     res.status(200).json(successResponse);
+    return;
   }
   try {
     const response = await fetch(
       `${postcodeIoUrl}/${validatedPostcode as string}`
     );
 
-    const {
-      result: { lsoa },
-    } = (await response.json()) as { result: { lsoa: string } };
+    const data = (await response.json()) as {
+      ok: boolean;
+      result: { lsoa: string };
+    };
 
-    if (!response.ok) {
+    if (!data.ok) {
       res.status(404).json({ error: "Postcode not found" });
+      return;
     }
 
-    const isAllowedServiceArea = checkIfAllowedServiceArea(lsoa, postcode);
+    const isAllowedServiceArea = checkIfAllowedServiceArea(
+      data.result.lsoa,
+      postcode
+    );
 
     if (isAllowedServiceArea !== true) {
       res.status(400).json(isAllowedServiceArea);
+      return;
     }
 
-    const successResponse: RequestResponse = {
-      isSuccess: true,
-      data: { message: `Postcode is in the service area ${lsoa}` },
-    };
+    if (data.ok && isAllowedServiceArea) {
+      const successResponse: RequestResponse = {
+        isSuccess: true,
+        data: {
+          message: `Postcode is in the service area ${data.result.lsoa}`,
+        },
+      };
 
-    res.status(200).json(successResponse);
+      res.status(200).json(successResponse);
+      return;
+    }
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error("Error fetching postcode data:", error);
     const errorResponse: RequestResponse = {
       isSuccess: false,
