@@ -13,12 +13,23 @@ export const checkPostcode: RequestHandler = async (req, res) => {
 
   const validatedPostcode = checkAndValidatePostcode(postcode);
 
-  if (typeof validatedPostcode !== "string" && validatedPostcode.error) {
+  if (typeof validatedPostcode !== "string" && validatedPostcode.error)
     res.status(400).json(validatedPostcode);
+
+  const isAllowedPostcode = checkIfPostcodeIsAllowed(postcode);
+
+  if (isAllowedPostcode) {
+    const successResponse: RequestResponse = {
+      isSuccess: true,
+      data: { message: `${postcode} is a valid postcode ` },
+    };
+
+    res.status(200).json(successResponse);
   }
 
   try {
     const response = await fetch(`${postcodeIoUrl}/${validatedPostcode}`);
+
     const {
       result: { lsoa },
     } = await response.json();
@@ -48,14 +59,15 @@ export const checkPostcode: RequestHandler = async (req, res) => {
 };
 
 function checkIfAllowedServiceArea(lsoa: string, postcode: string) {
-  const isAllowedServiceArea = checkIfPostcodeIsInLsoa(lsoa);
+  const [serviceArea, _code] = lsoa.split(" ");
+  const isAllowedServiceArea = checkIfPostcodeIsInLsoa(serviceArea);
 
   if (!isAllowedServiceArea) {
     const errorResponse: RequestResponse = {
       isSuccess: false,
       error: {
         type: "input",
-        message: `'${postcode}' is not in an allowed service area. Enter another postcode`,
+        message: `'${postcode}' is in ${serviceArea} which is not an allowed service area. Enter another postcode`,
       },
     };
     return errorResponse;
@@ -79,19 +91,6 @@ function checkAndValidatePostcode(postcode: string) {
       error: {
         type: "zod",
         message: `'${postcode}' is in an invalid format. Enter a postcode similar to AA12 3BC`,
-      },
-    };
-    return errorResponse;
-  }
-
-  const isAllowedPostcode = checkIfPostcodeIsAllowed(postcode);
-
-  if (!isAllowedPostcode) {
-    const errorResponse: RequestResponse = {
-      isSuccess: false,
-      error: {
-        type: "input",
-        message: `'${postcode}' is not an allowed postcode. Enter another postcode`,
       },
     };
     return errorResponse;
