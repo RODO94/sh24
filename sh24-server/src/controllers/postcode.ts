@@ -18,7 +18,6 @@ export const checkPostcode: RequestHandler = async (req, res) => {
   }
 
   const isAllowedPostcode = checkIfPostcodeIsAllowed(postcode);
-  console.log(isAllowedPostcode);
 
   if (isAllowedPostcode) {
     const successResponse: RequestResponse = {
