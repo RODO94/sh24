@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "tsx --watch --test src/controllers/postcode.test.ts",
+    "test": "tsx --watch --test src/controllers/postcode.*.test.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "tsx watch src/index.ts"

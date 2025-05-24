@@ -1,4 +1,5 @@
-import test, { describe, it } from "node:test";
+// @ts-nocheck
+import { describe, it } from "node:test";
 import assert from "node:assert";
 import {
   checkAndValidatePostcode,
@@ -63,8 +64,3 @@ describe("check for allowed service areas", () => {
     );
   });
 });
-test.todo("the error when a postcode is not found");
-
-test.todo("the postcode is in the service area check");
-
-test.todo("the postcode is not in the service area check");
