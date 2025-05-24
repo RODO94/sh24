@@ -1,12 +1,11 @@
 import { postcodeIoUrl } from "../index.js";
-import { z } from "zod/v4";
 import { RequestResponse } from "../types/requests.js";
-import { transfromAndSantitisePostcode } from "./transformations.js";
 import { RequestHandler } from "express";
 import {
+  checkAndValidatePostcode,
+  checkIfAllowedServiceArea,
   checkIfPostcodeIsAllowed,
-  checkIfPostcodeIsInLsoa,
-} from "./validation.js";
+} from "./utils/validation.js";
 
 export const checkPostcode: RequestHandler = async (req, res) => {
   const { postcode } = req.params;
@@ -26,7 +25,6 @@ export const checkPostcode: RequestHandler = async (req, res) => {
 
     res.status(200).json(successResponse);
   }
-
   try {
     const response = await fetch(
       `${postcodeIoUrl}/${validatedPostcode as string}`
@@ -53,6 +51,7 @@ export const checkPostcode: RequestHandler = async (req, res) => {
 
     res.status(200).json(successResponse);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error fetching postcode data:", error);
     const errorResponse: RequestResponse = {
       isSuccess: false,
@@ -61,44 +60,3 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     res.status(500).json(errorResponse);
   }
 };
-
-function checkIfAllowedServiceArea(lsoa: string, postcode: string) {
-  const [serviceArea] = lsoa.split(" ");
-  const isAllowedServiceArea = checkIfPostcodeIsInLsoa(serviceArea);
-
-  if (!isAllowedServiceArea) {
-    const errorResponse: RequestResponse = {
-      isSuccess: false,
-      error: {
-        type: "input",
-        message: `'${postcode}' is in ${serviceArea} which is not an allowed service area. Enter another postcode`,
-      },
-    };
-    return errorResponse;
-  }
-
-  return true;
-}
-
-function checkAndValidatePostcode(postcode: string) {
-  const transformedPostcode = transfromAndSantitisePostcode(postcode);
-
-  const validatedPostcode = z
-    .string()
-    .min(5)
-    .max(7)
-    .safeParse(transformedPostcode);
-
-  if (!validatedPostcode.success) {
-    const errorResponse: RequestResponse = {
-      isSuccess: false,
-      error: {
-        type: "zod",
-        message: `'${postcode}' is in an invalid format. Enter a postcode similar to AA12 3BC`,
-      },
-    };
-    return errorResponse;
-  }
-
-  return transformedPostcode;
-}
