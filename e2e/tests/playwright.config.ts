@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: "./e2e/tests",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -20,12 +20,12 @@ export default defineConfig({
 
   webServer: [
     {
-      command: "cd sh24-server && npm start",
+      command: "cd sh24-server && pnpm start",
       port: 8080,
       reuseExistingServer: !process.env.CI,
     },
     {
-      command: "cd sh24-client && npm run dev",
+      command: "cd sh24-client && pnpm run dev",
       port: 5173,
       reuseExistingServer: !process.env.CI,
     },
