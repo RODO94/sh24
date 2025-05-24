@@ -34,12 +34,19 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     );
 
     const data = (await response.json()) as {
-      ok: boolean;
+      status: number;
       result: { lsoa: string };
     };
 
-    if (!data.ok) {
-      res.status(404).json({ error: "Postcode not found" });
+    if (data.status === 404) {
+      const errorResponse: RequestResponse = {
+        isSuccess: false,
+        error: {
+          type: "input",
+          message: `'${postcode}' cannot be found. Enter another postcode`,
+        },
+      };
+      res.status(404).json(errorResponse);
       return;
     }
 
@@ -53,7 +60,7 @@ export const checkPostcode: RequestHandler = async (req, res) => {
       return;
     }
 
-    if (data.ok && isAllowedServiceArea) {
+    if (data.status === 200 && isAllowedServiceArea) {
       const successResponse: RequestResponse = {
         isSuccess: true,
         data: {

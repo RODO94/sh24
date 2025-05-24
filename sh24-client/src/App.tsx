@@ -2,23 +2,45 @@ import { useState } from "react";
 import "./App.css";
 import ErrorBox from "./components/ErrorBox/ErrorBox";
 import PostcodeInput from "./components/PostcodeInput/PostcodeInput";
-import type { RequestError } from "./types/requests";
+import type {
+  RequestError,
+  RequestResponse,
+  RequestSuccess,
+} from "./types/requests";
+import { checkPostcode } from "./requests/checkPostcode";
+import SuccessBox from "./components/SuccessBox/SuccessBox";
 
 function App() {
   const [errorMesage, setErrorMessage] = useState<RequestError | null>(null);
+  const [successMesage, setSuccessMessage] = useState<RequestSuccess | null>(
+    null
+  );
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("Form submitted");
-    setErrorMessage({
-      isSuccess: false,
-      error: { type: "input", message: "Invalid postcode" },
-    });
+
+    // @ts-expect-error
+    // Ignore to speed up ts development
+    const value: string = event.target[0].value;
+
+    const response: RequestResponse = await checkPostcode(value);
+    if (!response.isSuccess) {
+      setSuccessMessage(null);
+      setErrorMessage(response);
+      return;
+    }
+
+    if (response.isSuccess) {
+      setErrorMessage(null);
+      setSuccessMessage(response);
+    }
   };
+
   return (
     <main>
       <PostcodeInput handleSubmit={handleSubmit} />
       <ErrorBox errorMessage={errorMesage} />
+      <SuccessBox successMessage={successMesage} />
     </main>
   );
 }

@@ -12,4 +12,10 @@ I'd rather put the one allow list in the backend, probably as a variable in an a
 
 I'm putting error handling on submit rather than change to reduce noise, config, and keep the UI simple for the user. Can foresee possibility for annoying pattern where you don't know something is wrong until you submit, but it's only one input so I'm happy to balance this.
 
+Made ErrorBox and SuccessBox separate components because it was quicker in my head to separate the two roles, but it is perfectly reasonable in future to refactor these in to one component with a variant prop or something since they both can't exist at the same time.
+
+Unit tests were simple, mostly does it render and does it do something
+
+For hooking up with the backend, I've tried to keep it simple with the error journey and success journey both delivering a `data` field to the `handleSubmit` which feeds either state variable for `errorMessage` and `successMessage` which then controls which message gets displayed.
+
 ## Backend

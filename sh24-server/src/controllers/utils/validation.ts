@@ -7,10 +7,16 @@ import { transfromAndSantitisePostcode } from "./transformations.js";
 import { z } from "zod/v4";
 
 export const checkIfPostcodeIsInLsoa = (lsoa: string) =>
-  LSOA_ALLOW_LIST.find((allowedLsoa) => allowedLsoa === lsoa);
+  LSOA_ALLOW_LIST.find(
+    (allowedLsoa) => allowedLsoa.toLowerCase() === lsoa.toLowerCase()
+  );
 
 export const checkIfPostcodeIsAllowed = (postcode: string) =>
-  POSTCODE_ALLOW_LIST.find((allowedPostcode) => allowedPostcode === postcode);
+  POSTCODE_ALLOW_LIST.find(
+    (allowedPostcode) =>
+      transfromAndSantitisePostcode(allowedPostcode) ===
+      transfromAndSantitisePostcode(postcode)
+  );
 
 export function checkIfAllowedServiceArea(lsoa: string, postcode: string) {
   const serviceArea = lsoa.split(" ").slice(0, -1).join(" ");

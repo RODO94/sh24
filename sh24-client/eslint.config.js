@@ -34,6 +34,7 @@ export default tseslint.config(
           format: ["camelCase", "PascalCase"],
         },
       ],
+      "@typescript-eslint/ban-ts-comment": ["off"],
     },
   }
 );
