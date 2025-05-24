@@ -22,7 +22,7 @@ For hooking up with the backend, I've tried to keep it simple with the error jou
 
 Built this with routes and controllers as it separated out nicely what done the logic within a route, and what done the logic outside of the route. This decoupling also relates to potential additions in future, hopefully this helps. It could have sent in a module or service structure, but it goes along with my thinking in this structure.
 
-Tests are built first focusing on the functions that dictate the controller function. The checks and transforms. The second focuses on integrations, so mocking the postcodes.io API with Mock Service Worker, then running through the different iterations to ensure it filters well through the controller and responds to the API correctly.
+Tests are built first focusing on the functions that dictate the controller function. The checks and transforms. I went with the NodeJS Test Runner rather than Jest / Vitest because I wanted to have a run at built in packages rather than setup a test config, turned out quite quick. The second focuses on integrations, so mocking the postcodes.io API with Mock Service Worker, then running through the different iterations to ensure it filters well through the controller and responds to the API correctly.
 
 Allow List files ended up in a `logic/` folder as I couldn't at first thinking get a better name, but there's probably one.
 
