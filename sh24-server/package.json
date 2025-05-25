@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "tsx --watch --test src/__tests__/*/*.test.ts",
+    "test:integration": "tsx --watch --test src/__tests__/integration/*.test.ts",
+    "test:unit": "tsx --watch --test src/__tests__/unit/*.test.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "tsx watch src/index.ts"
