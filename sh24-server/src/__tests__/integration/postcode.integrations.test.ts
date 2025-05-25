@@ -1,16 +1,16 @@
 import { describe, it, before, after } from "node:test";
 import assert from "node:assert";
 import request from "supertest";
-import { server } from "../__tests__/mocks/server.js";
-import { southwarkPostcode } from "../__tests__/mocks/southwark.js";
-import { lambethPostcode } from "../__tests__/mocks/lambeth.js";
-import { firstSHPostcode } from "../__tests__/mocks/sh24.js";
-import { app } from "../app.js";
+import { server } from "../mocks/server.js";
+import { southwarkPostcode } from "../mocks/southwark.js";
+import { lambethPostcode } from "../mocks/lambeth.js";
+import { firstSHPostcode } from "../mocks/sh24.js";
+import { app } from "../../app.js";
 import {
   invalidPostcode,
   invalidServiceAreaPostcode,
   invalidZodPostcode,
-} from "../__tests__/mocks/invalidData.js";
+} from "../mocks/invalidData.js";
 
 describe("Postcode Integration Tests", () => {
   before(() => {
