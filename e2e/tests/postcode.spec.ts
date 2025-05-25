@@ -2,9 +2,11 @@
 import { test, expect } from "@playwright/test";
 import { submitAPostcode } from "./helpers";
 
+const frontendUrl = "http://localhost:5173/";
+
 test.describe("Postcode validation", () => {
   test("a user submitting a correct postcode", async ({ page }) => {
-    await page.goto("http://localhost:5173/");
+    await page.goto(frontendUrl);
     await submitAPostcode(page, "SE1 7QD");
 
     const responseMessage = page.getByRole("heading", { name: "Success" });
@@ -13,7 +15,7 @@ test.describe("Postcode validation", () => {
   });
 
   test("a user submitting an bad postcode", async ({ page }) => {
-    await page.goto("http://localhost:5173/");
+    await page.goto(frontendUrl);
     await submitAPostcode(page, "BAD");
 
     const responseMessage = page.getByRole("heading", { name: "Error" });
@@ -22,7 +24,7 @@ test.describe("Postcode validation", () => {
   });
 
   test("form is keyboard accessible", async ({ page }) => {
-    await page.goto("http://localhost:5173/");
+    await page.goto(frontendUrl);
 
     await page.keyboard.press("Tab");
     const input = page.getByRole("textbox", { name: "Enter a postcode" });
