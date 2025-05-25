@@ -20,4 +20,17 @@ test.describe("Postcode validation", () => {
 
     await expect(responseMessage).toBeVisible();
   });
+
+  test("form is keyboard accessible", async ({ page }) => {
+    await page.goto("http://localhost:5173/");
+
+    await page.keyboard.press("Tab");
+    const input = page.getByRole("textbox", { name: "Enter a postcode" });
+    await expect(input).toBeFocused();
+
+    await page.keyboard.type("SE1 7QD");
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByRole("heading", { name: "Success" })).toBeVisible();
+  });
 });
