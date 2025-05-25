@@ -6,11 +6,12 @@ import {
   checkIfAllowedServiceArea,
   checkIfPostcodeIsAllowed,
 } from "./utils/validation.js";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const checkPostcode: RequestHandler = async (req, res) => {
   const { postcode } = req.params;
 
+  // Validate the postcode format
   const validatedPostcode = checkAndValidatePostcode(postcode);
 
   if (typeof validatedPostcode !== "string") {
@@ -18,6 +19,7 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     return;
   }
 
+  // Check if the postcode is in the allowed list
   const isAllowedPostcode = checkIfPostcodeIsAllowed(postcode);
 
   if (isAllowedPostcode) {
@@ -30,22 +32,12 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     return;
   }
   try {
+    // Fetch postcode data from the Postcode.io API
     const { data } = (await axios.get(
       `${postcodeIoUrl}/${validatedPostcode}`
     )) satisfies PostcodeIOResponse;
 
-    if (data.status === 404) {
-      const errorResponse: RequestResponse = {
-        isSuccess: false,
-        error: {
-          type: "input",
-          message: `'${postcode}' cannot be found. Enter another postcode`,
-        },
-      };
-      res.status(404).json(errorResponse);
-      return;
-    }
-
+    // Check if the postcode is in an allowed service area
     const isAllowedServiceArea = checkIfAllowedServiceArea(
       data.result.lsoa,
       postcode
@@ -68,11 +60,24 @@ export const checkPostcode: RequestHandler = async (req, res) => {
       return;
     }
   } catch (error) {
-    console.error("Error fetching postcode data:", error);
-    const errorResponse: RequestResponse = {
-      isSuccess: false,
-      error: { type: "server", message: "Failed to fetch postcode data" },
-    };
-    res.status(500).json(errorResponse);
+    // Handle errors from the Postcode.io API
+    if (error instanceof AxiosError) {
+      if (error.status === 404) {
+        const errorResponse: RequestResponse = {
+          isSuccess: false,
+          error: {
+            type: "input",
+            message: `'${postcode}' cannot be found. Enter another postcode`,
+          },
+        };
+        res.status(404).json(errorResponse);
+        return;
+      }
+      const errorResponse: RequestResponse = {
+        isSuccess: false,
+        error: { type: "server", message: error.message },
+      };
+      res.status(error.status || 500).json(errorResponse);
+    }
   }
 };

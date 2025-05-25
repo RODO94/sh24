@@ -26,7 +26,7 @@ Tests are built first focusing on the functions that dictate the controller func
 
 Allow List files ended up in a `logic/` folder as I couldn't at first thinking get a better name, but there's probably one.
 
-Most decisions went toward decoupling logic and keeping files small.
+Most decisions went toward decoupling logic and keeping files small. The `controller/postcode.ts` file flies in the face of this a bit as I ran out of time to break it down into something more manageable.
 
 ## E2E
 
