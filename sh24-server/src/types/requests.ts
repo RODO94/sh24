@@ -16,3 +16,10 @@ export interface RequestSuccess extends RequestResponseBase {
 }
 
 export type RequestResponse = RequestError | RequestSuccess;
+
+export interface PostcodeIOResponse {
+  data: {
+    status: number;
+    result: { lsoa: string };
+  };
+}
