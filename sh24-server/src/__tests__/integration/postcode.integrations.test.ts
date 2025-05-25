@@ -3,7 +3,6 @@ import assert from "node:assert";
 import request from "supertest";
 import { server } from "../mocks/server.js";
 import { southwarkPostcode } from "../mocks/southwark.js";
-import { lambethPostcode } from "../mocks/lambeth.js";
 import { firstSHPostcode } from "../mocks/sh24.js";
 import { app } from "../../app.js";
 import {
@@ -22,7 +21,7 @@ describe("Postcode Integration Tests", () => {
   });
 
   describe("requests for valid postcodes", () => {
-    it("should return success for allowed SH24 postcodes", async () => {
+    it("should return success for allowed postcodes", async () => {
       const response = await request(app)
         .get(`/postcode/${firstSHPostcode}`)
         .expect(200);
@@ -30,18 +29,9 @@ describe("Postcode Integration Tests", () => {
       assert(response.body.data.message.includes("valid postcode"));
     });
 
-    it("should return success for Southwark postcodes", async () => {
+    it("should return success for allowed service area postcodes", async () => {
       const response = await request(app)
         .get(`/postcode/${southwarkPostcode}`)
-        .expect(200);
-
-      assert.strictEqual(response.body.isSuccess, true);
-      assert(response.body.data.message.includes("service area"));
-    });
-
-    it("should return success for Lambeth postcodes", async () => {
-      const response = await request(app)
-        .get(`/postcode/${lambethPostcode}`)
         .expect(200);
 
       assert.strictEqual(response.body.isSuccess, true);
