@@ -1,4 +1,4 @@
-export const southwarkPostcode = "SE17QD";
+export const southwarkPostcode = "SE1 7QD";
 
 export const southwarkAPIResponse = {
   status: 200,

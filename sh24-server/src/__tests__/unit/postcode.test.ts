@@ -5,15 +5,15 @@ import {
   checkAndValidatePostcode,
   checkIfAllowedServiceArea,
   checkIfPostcodeIsAllowed,
-} from "./utils/validation.js";
-import { southwarkPostcode } from "../__tests__/mocks/southwark.js";
-import { firstSHPostcode } from "../__tests__/mocks/sh24.js";
-import { lambethPostcode } from "../__tests__/mocks/lambeth.js";
+} from "../../controllers/utils/validation.js";
+import { southwarkPostcode } from "../mocks/southwark.js";
+import { firstSHPostcode } from "../mocks/sh24.js";
+import { lambethPostcode } from "../mocks/lambeth.js";
 import {
   invalidPostcode,
   invalidServiceArea,
   invalidZodPostcode,
-} from "../__tests__/mocks/invalidData.js";
+} from "../mocks/invalidData.js";
 
 describe("zod postcode validation", () => {
   it("creates a zod error for invalid postcodes", () => {

@@ -1,16 +1,15 @@
 import { describe, it, before, after } from "node:test";
 import assert from "node:assert";
 import request from "supertest";
-import { server } from "../__tests__/mocks/server.js";
-import { southwarkPostcode } from "../__tests__/mocks/southwark.js";
-import { lambethPostcode } from "../__tests__/mocks/lambeth.js";
-import { firstSHPostcode } from "../__tests__/mocks/sh24.js";
-import { app } from "../app.js";
+import { server } from "../mocks/server.js";
+import { southwarkPostcode } from "../mocks/southwark.js";
+import { firstSHPostcode } from "../mocks/sh24.js";
+import { app } from "../../app.js";
 import {
   invalidPostcode,
   invalidServiceAreaPostcode,
   invalidZodPostcode,
-} from "../__tests__/mocks/invalidData.js";
+} from "../mocks/invalidData.js";
 
 describe("Postcode Integration Tests", () => {
   before(() => {
@@ -22,7 +21,7 @@ describe("Postcode Integration Tests", () => {
   });
 
   describe("requests for valid postcodes", () => {
-    it("should return success for allowed SH24 postcodes", async () => {
+    it("should return success for allowed postcodes", async () => {
       const response = await request(app)
         .get(`/postcode/${firstSHPostcode}`)
         .expect(200);
@@ -30,18 +29,9 @@ describe("Postcode Integration Tests", () => {
       assert(response.body.data.message.includes("valid postcode"));
     });
 
-    it("should return success for Southwark postcodes", async () => {
+    it("should return success for allowed service area postcodes", async () => {
       const response = await request(app)
         .get(`/postcode/${southwarkPostcode}`)
-        .expect(200);
-
-      assert.strictEqual(response.body.isSuccess, true);
-      assert(response.body.data.message.includes("service area"));
-    });
-
-    it("should return success for Lambeth postcodes", async () => {
-      const response = await request(app)
-        .get(`/postcode/${lambethPostcode}`)
         .expect(200);
 
       assert.strictEqual(response.body.isSuccess, true);
