@@ -1,18 +1,19 @@
 import { postcodeIoUrl } from "../index.js";
-import { RequestResponse } from "../types/requests.js";
+import { PostcodeIOResponse, RequestResponse } from "../types/requests.js";
 import { RequestHandler } from "express";
 import {
   checkAndValidatePostcode,
   checkIfAllowedServiceArea,
   checkIfPostcodeIsAllowed,
 } from "./utils/validation.js";
+import axios from "axios";
 
 export const checkPostcode: RequestHandler = async (req, res) => {
   const { postcode } = req.params;
 
   const validatedPostcode = checkAndValidatePostcode(postcode);
 
-  if (typeof validatedPostcode !== "string" && validatedPostcode.error) {
+  if (typeof validatedPostcode !== "string") {
     res.status(400).json(validatedPostcode);
     return;
   }
@@ -29,14 +30,9 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     return;
   }
   try {
-    const response = await fetch(
-      `${postcodeIoUrl}/${validatedPostcode as string}`
-    );
-
-    const data = (await response.json()) as {
-      status: number;
-      result: { lsoa: string };
-    };
+    const { data } = (await axios.get(
+      `${postcodeIoUrl}/${validatedPostcode}`
+    )) satisfies PostcodeIOResponse;
 
     if (data.status === 404) {
       const errorResponse: RequestResponse = {
