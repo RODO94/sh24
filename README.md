@@ -53,6 +53,7 @@ Tests are split by stack and each directory has it's own test
 For client unit tests
 
 ```bash
+# from sh24-client/
 pnpm test
 ```
 
@@ -61,18 +62,21 @@ pnpm test
 For all tests:
 
 ```bash
+# from sh24-server/
 pnpm test
 ```
 
 For unit tests:
 
 ```bash
+# from sh24-server/
 pnpm test:unit
 ```
 
 For integration tests:
 
 ```bash
+# from sh24-server/
 pnpm test:integration
 ```
 
@@ -81,11 +85,13 @@ pnpm test:integration
 End to end tests are run from the root directory:
 
 ```bash
+# from the root
 pnpm test:e2e
 ```
 
 Or with the Playwright UI:
 
 ```bash
+# from the root
 pnpm test:e2e:ui
 ```
