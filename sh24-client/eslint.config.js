@@ -27,7 +27,7 @@ export default tseslint.config(
         "error",
         {
           selector: "variable",
-          format: ["camelCase"],
+          format: ["camelCase", "UPPER_CASE"],
         },
         {
           selector: "function",
