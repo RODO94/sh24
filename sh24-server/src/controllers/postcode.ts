@@ -31,11 +31,19 @@ export const checkPostcode: RequestHandler = async (req, res) => {
     res.status(200).json(successResponse);
     return;
   }
+
   try {
     // Fetch postcode data from the Postcode.io API
     const { data } = (await axios.get(
       `${postcodeIoUrl}/${validatedPostcode}`
     )) satisfies PostcodeIOResponse;
+
+    // And the request to Postcode.io fails
+    // we have another endpoint to check
+    // postcodeaddresslookup.com/postcodes
+
+    // if we hit postcode address look up
+    // we still want to run everything below
 
     // Check if the postcode is in an allowed service area
     const isAllowedServiceArea = checkIfAllowedServiceArea(

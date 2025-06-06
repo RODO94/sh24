@@ -1,17 +1,22 @@
 import { http, HttpResponse } from "msw";
 import { postcodeIoUrl } from "../../index.js";
 import { southwarkAPIResponse, southwarkPostcode } from "./southwark.js";
-import { lambethAPIResponse, lambethPostcode } from "./lambeth.js";
 import {
-  invalidAPIResponse,
+  lambethPostcodesIoResponse,
+  lambethPostcode,
+  lambethPostcodeAddressLookupResponse,
+} from "./lambeth.js";
+import {
   invalidPostcode,
+  invalidPostcodeAddressLookupResponse,
+  invalidPostcodeIoResponse,
   invalidServiceAreaAPIResponse,
   invalidServiceAreaPostcode,
 } from "./invalidData.js";
 import { transfromAndSantitisePostcode } from "../../controllers/utils/transformations.js";
 import { firstSHPostcode } from "./sh24.js";
 
-export const handlers = [
+export const postcodeIoHandlers = [
   http.get(
     `${postcodeIoUrl}/${transfromAndSantitisePostcode(southwarkPostcode)}`,
     () => {
@@ -21,7 +26,7 @@ export const handlers = [
   http.get(
     `${postcodeIoUrl}/${transfromAndSantitisePostcode(lambethPostcode)}`,
     () => {
-      return HttpResponse.json(lambethAPIResponse, { status: 200 });
+      return HttpResponse.json(lambethPostcodesIoResponse, { status: 200 });
     }
   ),
   http.get(
@@ -33,7 +38,7 @@ export const handlers = [
   http.get(
     `${postcodeIoUrl}/${transfromAndSantitisePostcode(invalidPostcode)}`,
     () => {
-      return HttpResponse.json(invalidAPIResponse, { status: 404 });
+      return HttpResponse.json(invalidPostcodeIoResponse, { status: 404 });
     }
   ),
   http.get(
@@ -44,4 +49,28 @@ export const handlers = [
       return HttpResponse.json(invalidServiceAreaAPIResponse);
     }
   ),
+];
+
+export const postcodeAddressLookupHandlers = [
+  http.get(
+    `${postcodeIoUrl}/${transfromAndSantitisePostcode(lambethPostcode)}`,
+    () => {
+      return HttpResponse.json(lambethPostcodeAddressLookupResponse, {
+        status: 200,
+      });
+    }
+  ),
+  http.get(
+    `${postcodeIoUrl}/${transfromAndSantitisePostcode(invalidPostcode)}`,
+    () => {
+      return HttpResponse.json(invalidPostcodeAddressLookupResponse, {
+        status: 404,
+      });
+    }
+  ),
+];
+
+export const handlers = [
+  ...postcodeIoHandlers,
+  ...postcodeAddressLookupHandlers,
 ];
